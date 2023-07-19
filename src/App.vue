@@ -1,10 +1,23 @@
 <template>
   <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+    <el-tabs v-model="activeName" class="demo-tabs" >
+    <el-tab-pane label="主页" name="first" ><HomeView /></el-tab-pane>
+    <el-tab-pane label="配置" name="second"><ConfigView /></el-tab-pane>
+    <el-tab-pane label="关于" name="third"><AboutView /></el-tab-pane>
+    <el-tab-pane label="联系" name="fourth">Alenkz12</el-tab-pane>
+    </el-tabs>
   </nav>
-  <router-view/>
+
 </template>
+<script  setup>
+import {ref} from 'vue'
+import HomeView from './views/HomeView.vue'
+import AboutView from './views/AboutView.vue'
+import ConfigView from './views/ConfigView.vue'
+
+var activeName=ref("first")
+</script>
+
 
 <style lang="scss">
 #app {
