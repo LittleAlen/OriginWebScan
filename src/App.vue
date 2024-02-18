@@ -7,7 +7,7 @@
     <el-tab-pane label="联系" name="fourth">Alenkz12</el-tab-pane>
     </el-tabs>
   </nav>
-
+  <!-- <router-view></router-view> -->
 </template>
 <script  setup>
 import {ref} from 'vue'

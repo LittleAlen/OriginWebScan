@@ -3,14 +3,18 @@
 import { app, protocol, BrowserWindow,ipcMain } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
+import * as events from './core/events.js'
+
+
 const isDevelopment = process.env.NODE_ENV !== 'production'
 const path = require('path')
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } }
 ])
-console.log(process.env.ELECTRON_NODE_INTEGRATION)
-console.log(__dirname)
+// console.log(process.env.ELECTRON_NODE_INTEGRATION)
+// console.log(__dirname)
+console.log(app.getAppPath())
 async function createWindow() {
   // Create the browser window.
   const win = new BrowserWindow({
@@ -29,10 +33,15 @@ async function createWindow() {
     }
   })
 
+
+
+
+
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
     await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
-    if (!process.env.IS_TEST) win.webContents.openDevTools()
+    // if (!process.env.IS_TEST)
+    //  win.webContents.openDevTools()
   } else {
     createProtocol('app')
     // Load the index.html when not in development
@@ -67,7 +76,16 @@ app.on('ready', async () => {
     //   console.error('Vue Devtools failed to install:', e.toString())
     // }
   }
-  ipcMain.on('set-title', handleSetTitle)
+
+  // events register
+  ipcMain.on('set-title', events.handleSetTitle)
+  ipcMain.handle("Start",events.handelStart)
+  ipcMain.handle("Stop",events.handelStop)
+  ipcMain.handle("GetRules",events.handleGetRules)
+  ipcMain.handle("StoreRules",events.handleStoreRules)
+  ipcMain.on("DeleteScript",events.handelDeleteScript)
+  ipcMain.on("StoreScript",events.handelStoreScript)
+  ipcMain.on("SetControlStatus",events.handleSetControlStatus)
   createWindow()
 })
 
@@ -86,10 +104,5 @@ if (isDevelopment) {
   }
 }
 
-function handleSetTitle (event, title) {
-  const webContents = event.sender
-  const win= BrowserWindow.fromWebContents(webContents)
-  
-  win.setTitle(title)
-  
-}
+
+
