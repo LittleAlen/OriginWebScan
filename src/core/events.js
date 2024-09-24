@@ -9,7 +9,7 @@ export function handleSetTitle (event, title) {
     const win= BrowserWindow.fromWebContents(webContents)
     
     win.setTitle(title)
-    win.webContents.send("text",`hello, I have change the title to ${title}`)
+    win.webContents.send("text",`hello, I have changed the title to ${title}`)
 }
 
 export async function handelStart(event,url="",rawRequest="",filePath=""){
@@ -69,9 +69,9 @@ export async function handelDeleteScript(event,name){
     var path="src/scripts/"+name
     fs.access(path, fs.constants.F_OK, (err) => {
         if (err) {
-        //   console.error('File does not exist');
+          console.error('File does not exist');
         } else {
-        //   console.log('File exists');
+        // console.log('File exists');
         fs.unlink(path, (err) => {
             if (err) {
               console.error('ERROR: Error deleting file:', err);

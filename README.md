@@ -1,19 +1,7 @@
-# origin
 
-## Project setup
-```
-yarn install
-```
+## Web Origin 漏扫
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
 
-### Compiles and minifies for production
-```
-yarn build
-```
+### 运行
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+npm run electron:serve

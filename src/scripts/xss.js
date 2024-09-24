@@ -67,7 +67,8 @@ async function Check(req=new RequestParser("http://127.0.0.1")){
                     "Cookie":store_cookie[0]
                 },
             })
-            if(response.data.match(/.innerHTML=.*\+[a-zA-Z].*/)!==null||response.data.match("document.write(.*\+.*")!==null)//可能会误报
+            if(response.data.match(/\.innerHTML=.*\+[ ]*[a-zA-Z0-9_].*/)!==null||response.data.match(/\.innerHTML=.*[a-zA-Z0-9_][ ]*\+.*/)!==null||response.data.match(/document\.write\(.*\+[ ]*[a-zA-Z0-9_].*/)!==null||response.data.match(/document\.write\(.*[a-zA-Z0-9_][ ]*\+.*/)!==null)//可能会误报,如果变量是不可更改的话，则不会产生该漏洞
+            //变量可以位于文档节点中的任何位置，或许可以用playload recheck一下
                 result.push(["innerHTML、document.write 部分可以插入恶意DOM节点"," 对于用户的输入，最好使用innerText来渲染"])
 
         }

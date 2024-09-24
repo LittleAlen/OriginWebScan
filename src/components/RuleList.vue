@@ -129,8 +129,9 @@
     deleteName.value=name
     confirmDelete.value=true
   }
-  function handleConfirmDelete(id){
-    emit('DeleteRow',id)
+  function handleConfirmDelete(){
+    emit('DeleteRow',deleteID.value)
+    confirmDelete.value=false
   }
   function handleEnableRow(id){
     emit('EnableRow',id);

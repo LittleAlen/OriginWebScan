@@ -35,7 +35,7 @@ async function Check(req=new RequestParser("http://127.0.0.1")){
             return [false]
         //console.log(req)
         // console.log(response1.data===response2.data)
-        if(req.request.request_line.method==="GET"){
+        if(req.request.request_line.method==="GET"){ //可能会产生大量的误报，登录状态下的每个跳转链接都必须要权限，然后普通跳转都会报漏洞
             // console.log("??")
             // console.log(req)
             // console.log("----1----",response1.data)
@@ -48,6 +48,9 @@ async function Check(req=new RequestParser("http://127.0.0.1")){
                 result.push(["",""])
         }
      //cookie 未和token做绑定不做检查   
+     {
+        
+     }
     }
     }catch(e){
         //console.log(e)

@@ -32,7 +32,7 @@ async function Check(req=new RequestParser("http://127.0.0.1")){
     }
     //目录显示
     {
-        if((dir_check||control_status[1]==false)&&req.url.split("/").length>3){
+        if((dir_check||control_status[1]==false)&&req.url.split("/").length>4){
             dir_check=false
             let url=new URL(req.url)
             let path="/"+url.pathname.split("/")[1]

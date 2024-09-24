@@ -11,7 +11,7 @@
         <el-switch
       v-model="scan_all"
       style="--el-switch-on-color: #13ce66; --el-switch-off-color: #26ceec"
-      active-text="全域扫描"
+      active-text="全站扫描"
       inactive-text="单页扫描"
         />
       </el-col>

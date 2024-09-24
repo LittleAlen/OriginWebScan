@@ -3,8 +3,10 @@
     <el-tabs v-model="activeName" class="demo-tabs" >
     <el-tab-pane label="主页" name="first" ><HomeView /></el-tab-pane>
     <el-tab-pane label="配置" name="second"><ConfigView /></el-tab-pane>
-    <el-tab-pane label="关于" name="third"><AboutView /></el-tab-pane>
-    <el-tab-pane label="联系" name="fourth">Alenkz12</el-tab-pane>
+    <el-tab-pane label="源代码" name="third"><AboutView /></el-tab-pane>
+    <el-tab-pane label="运行输出" name="fourth">Alenkz12</el-tab-pane>
+    <!-- <el-tab-pane label="脚本库" name="fourth">Alenkz12</el-tab-pane> -->
+
     </el-tabs>
   </nav>
   <!-- <router-view></router-view> -->

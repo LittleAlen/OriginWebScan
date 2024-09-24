@@ -13,6 +13,7 @@ const {store_cookie} = require("../core/WebSpider.js")
 //       "Cookie":store_cookie[0]
 //     },
 // })
+
 async function Check(req=new RequestParser("http://127.0.0.1")){
     var keyword=new URL(req.url).searchParams.toString()+req.request.data;
     // if(req.url.includes("/vul/ssrf/"))

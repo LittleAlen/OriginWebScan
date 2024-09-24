@@ -6,11 +6,18 @@ const { default: axios } = require("axios")
 const {store_cookie} = require("./../../src/core/WebSpider.js")
 
 async function Check(req=new RequestParser("http://127.0.0.1")){
-    if(req.request.request_line.method==="GET")
-            return [false]
+    
     var result=[]
     try{
+
     //暴力破解
+    //GET提交
+    {
+        if(req.request.request_line.method==="GET")
+            return [false]
+    }
+
+    //POST提交
     {
         let response1= await axios({
             url:req.url,

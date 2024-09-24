@@ -5,7 +5,7 @@ const { default: axios } = require("axios")
 const RequestParser = require("./RequestParser")
 const ResponseParser = require("./ResponseParser")
 const ignore_suffix=[".js",".css",".jpg",".jpeg",".png",".webp"]
-const control_status=[true,false,true] //程序运行状态，扫描方式，渲染方式 {运行，全域扫描，静态渲染}
+const control_status=[true,false,true] //程序运行状态，扫描方式，渲染方式 {运行，全站扫描，静态渲染}
 const controller = new AbortController()
 var store_cookie=[""]
 // async function setCookiesFromAxiosResponse(page, cookies,url) {
@@ -119,7 +119,7 @@ class WebSpider{
             if(!control_status[0])
             {
                 // 使用原生的 AbortController
-                controller.abort()
+                //controller.abort()
                 return
             }
             
@@ -187,13 +187,13 @@ class WebSpider{
                         if(tag===true){
                             continue
                         }
-                        //这段代码会扫描该站点下的所有同域名界面，会产生递归扫描   全域检索和单页面检索的关键
+                        //这段代码会扫描该站点下的所有同域名界面，会产生递归扫描   全站检索和单页面检索的关键
                         if(!this.requests_url.has(ComputePath(i.url)+i.request.request_line.method)){
                             //console.log(control_status)
                             if(control_status[1]){
                                 // if(i.url.includes("/vul/unsafedownload/execdownload.php?filename="))
                                 //     console.log("~~~~",i.url)
-                                function_result.push(SearchLink(i))   //全域检索
+                                function_result.push(SearchLink(i))   //全站检索
                             }
                             else{
                                 // this.requests_url.add(i.url+i.request.request_line.method)
@@ -232,10 +232,11 @@ class WebSpider{
         //console.log("INFO: Spider result  ")
         //console.log(this)
     }
+
     result(){
        
         if(control_status[1])
-            return Array.from(this.valid_requests) //全域扫描只扫描返回html文件的请求
+            return Array.from(this.valid_requests) //全站扫描只扫描返回html文件的请求
         else
             return Array.from(this.requests) //单页扫描只扫描当前同域名和同路径下的文件
     }
