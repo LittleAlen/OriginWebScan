@@ -1,5 +1,5 @@
 <template>
-  <h1>Origin--WEB漏洞扫描工具介绍</h1>
+  <h1>Origin--漏洞扫描工具介绍</h1>
   Title: <input id="title" v-model="val" />
     <button id="btn" type="button" @click="k">Set</button>
     <p>测试输出</p>

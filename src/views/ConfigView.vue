@@ -59,7 +59,7 @@
     </el-dialog>
   </template>
   <script  setup>
-  import RuleList from "../components/RuleList.vue"
+  import RuleList from "@/components/RuleList.vue"
   import { Search,Plus,UploadFilled } from "@element-plus/icons-vue"
   import {computed, ref,reactive,onMounted,onUnmounted,onDeactivated,watch, watchEffect} from "vue"
 
@@ -81,7 +81,7 @@
         return tmp.sort((a,b)=>b.grade-a.grade)
     }
   })
-  watch(()=>{
+  watchEffect(()=>{
     window.electron.setControlStatus([false,scan_all.value,static_render.value])
   })
   var dialogVisible=ref(false)

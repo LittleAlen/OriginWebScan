@@ -1,21 +1,23 @@
 <template>
   <nav>
-    <el-tabs v-model="activeName" class="demo-tabs" >
+    <el-tabs v-model="activeName"  >
     <el-tab-pane label="主页" name="first" ><HomeView /></el-tab-pane>
     <el-tab-pane label="配置" name="second"><ConfigView /></el-tab-pane>
-    <el-tab-pane label="源代码" name="third"><AboutView /></el-tab-pane>
-    <el-tab-pane label="运行输出" name="fourth">Alenkz12</el-tab-pane>
+    <el-tab-pane label="源代码" name="third"><FileView /></el-tab-pane>
+    <el-tab-pane label="运行输出" name="fourth"><OutputView /></el-tab-pane>
+    <el-tab-pane label="关于" name="fifth"><AboutView /></el-tab-pane> 
     <!-- <el-tab-pane label="脚本库" name="fourth">Alenkz12</el-tab-pane> -->
-
     </el-tabs>
   </nav>
   <!-- <router-view></router-view> -->
 </template>
 <script  setup>
 import {ref} from 'vue'
-import HomeView from './views/HomeView.vue'
-import AboutView from './views/AboutView.vue'
-import ConfigView from './views/ConfigView.vue'
+import HomeView from '@/views/HomeView.vue'
+import AboutView from '@/views/AboutView.vue'
+import ConfigView from '@/views/ConfigView.vue'
+import FileView from '@/views/FileView.vue'
+import OutputView from '@/views/OutputView.vue'
 
 var activeName=ref("first")
 </script>

@@ -13,14 +13,14 @@
     <el-col :span="24"><div class="grid-content ep-bg-purple" /><DataList :table-data="tableData" :hostname="hostname" /></el-col>
   </el-row>
 
-  <el-dialog v-model="ClipboardVisible" >
+  <el-dialog v-model="ClipboardVisible"  >
     <el-input  :rows="4" type="textarea" v-model="rawRequest" autocomplete="off" placeholder="粘贴原始请求到该栏（配合BurpSuite）" />
   </el-dialog>
   
   
 </template>
 <script  setup>
-import DataList from "../components/DataList.vue"
+import DataList from "@/components/DataList.vue"
 import {Edit,Document,SwitchButton,Loading, Eleme } from "@element-plus/icons-vue"
 import {computed, ref} from "vue"
 
@@ -68,7 +68,7 @@ async function handleConfirm(){
 </script>
 <style>
 .el-row {
-  margin-bottom: 20px;
+  margin-bottom: 1px;
 }
 .el-row:last-child {
   margin-bottom: 0;

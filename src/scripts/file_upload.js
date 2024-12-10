@@ -21,7 +21,7 @@ const {store_cookie} = require("../core/WebSpider.js")
 async function Check(req=new RequestParser("http://127.0.0.1")){
     if(req.request.request_line.method==="GET"||req.request.data.includes("__File__")===false)
         return [false]
-    var playload="<?php echo '__Alenkz12__';?>"
+    var playload="<?php echo '__Alenkz12__';?>"  
     var result=[]
     var param=new URLSearchParams(req.request.data)
     var name=""
