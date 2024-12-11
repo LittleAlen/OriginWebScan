@@ -6,7 +6,7 @@ import path, { resolve } from 'path'
 import readRules from "./database"
 // var {control_status,store_cookie} = require("./WebSpider")
 import { control_status, store_cookie } from './WebSpider'
-
+import AdmZip from 'adm-zip'
 
 
 export function handleSetTitle (event, title) {
@@ -70,50 +70,58 @@ export async function handleStoreRules(event,rules){
     
 }
 
-export async function handelDeleteFile(event,path){
-    fs.rm(path,{ recursive: true, force: true },(err)=>{
+export async function handelDeleteFile(event,filepath){
+    fs.rm(filepath,{ recursive: true, force: true },(err)=>{
       if(err){
         console.error('ERROR: Error deleting file:', err);
       } else {
-        console.log('INFO: File deleted successfully',path);
+        console.log('INFO: File deleted successfully',filepath);
       }
     })
 
    
 }
-export async function handelStoreFile(event,path,buffer){
+export async function handelStoreFile(event,filepath,buffer){
     
-    fs.writeFile(path, Buffer.from(buffer), (err) => {
-        if (err) {
-          console.error('ERROR: Error writing file:', err);
-        } else {
-          console.log('INFO: File written successfully ',path);
-        }
-      });
+  fs.writeFile(filepath, Buffer.from(buffer), (err) => {
+    if (err) {
+      console.error('ERROR: Error writing file:', err);
+    } else {
+      console.log('INFO: File written successfully ',filepath);
+    }
+  });
+    
 
 }
 
 export async function handelMoveFile(event,srcpath,despath){
   
   var data=await handelGetFile(null,srcpath)
-  fs.writeFile(despath, data, (err) => {
-      if (err) {
-        console.error('ERROR: Error writing file:', err);
-      } else {
-        console.log('INFO: File written successfully ',despath);
-      }
-    });
-
+  console.log(path.extname(despath).toLowerCase())
+  if(path.extname(despath).toLowerCase()===".zip"){
+    const directory=path.dirname(despath)
+    const zip = new AdmZip(data)
+    zip.extractAllTo(directory, true);
+    console.log('INFO: File unzips successfully ',directory);
+  }else{
+    fs.writeFile(despath, data, (err) => {
+        if (err) {
+          console.error('ERROR: Error writing file:', err);
+        } else {
+          console.log('INFO: File written successfully ',despath);
+        }
+      });
+  }
 }
-export async function handelGetFile(event,path){
+export async function handelGetFile(event,filepath){
     
   return new Promise((resolve,reject)=>{
 
-    fs.readFile(path,(err,data)=>{
+    fs.readFile(filepath,(err,data)=>{
       if (err) {
         console.error('ERROR: Error read file:', err);
       } else {
-        console.log('INFO: File Read successfully ',path);
+        console.log('INFO: File Read successfully ',filepath);
         resolve(data)
       }
     })

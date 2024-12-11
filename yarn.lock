@@ -2398,6 +2398,11 @@
   "resolved" "https://registry.npmmirror.com/address/-/address-1.2.2.tgz"
   "version" "1.2.2"
 
+"adm-zip@^0.5.16":
+  "integrity" "sha512-TGw5yVi4saajsSEgz25grObGHEUaDrniwvA2qwSC060KfqGPdglhvPMA2lPIoxs3PQIItj2iag35fONcQqgUaQ=="
+  "resolved" "https://registry.npmjs.org/adm-zip/-/adm-zip-0.5.16.tgz"
+  "version" "0.5.16"
+
 "agent-base@6":
   "integrity" "sha512-RZNwNclF7+MS/8bDg70amg32dyeZGZxiDuQmZxKLAlQjr3jGyLx+4Kkk58UO7D2QdgFIQCovuSuZESne6RG6XQ=="
   "resolved" "https://registry.npmmirror.com/agent-base/-/agent-base-6.0.2.tgz"
