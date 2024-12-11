@@ -6,6 +6,7 @@ const RequestParser = require("./RequestParser")
 const ResponseParser = require("./ResponseParser")
 const ignore_suffix=[".js",".css",".jpg",".jpeg",".png",".webp"]
 const control_status=[true,false,true] //程序运行状态，扫描方式，渲染方式 {运行，全站扫描，静态渲染}
+//放弃该方法，没必要，直接设置不进入递归搜索即可
 const controller = new AbortController()
 var store_cookie=[""]
 // async function setCookiesFromAxiosResponse(page, cookies,url) {
@@ -137,7 +138,7 @@ class WebSpider{
                     url:req.url,
                     method:req.request.request_line.method,
                     data:req.request.data,
-                    signal: controller.signal,
+                    //signal: controller.signal,
                     timeout:0,
                     headers:{
                         "Cookie":store_cookie[0]

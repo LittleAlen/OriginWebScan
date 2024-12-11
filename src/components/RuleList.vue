@@ -2,7 +2,7 @@
     <el-table :data="rulesData" height="250" style="width: 100%">
       <el-table-column prop="name" label="漏洞名称" align="center"  />
       <el-table-column prop="grade" label="危险等级"  align="center" />
-      <el-table-column prop="path" label="文件名" align="center" />
+      <el-table-column prop="filename" label="文件名" align="center" />
 
       <el-table-column label="操作" align="center">
         <template v-slot="scope">
@@ -34,7 +34,7 @@
     </template>
   </el-dialog>
 
-    <el-dialog v-model="dialogVisible" title="规则添加">
+    <el-dialog v-model="dialogVisible" title="规则添加" :close-on-click-modal="false">
     <el-form :model="form" :inline="true">
       <el-form-item label="漏洞名字" >
         <el-input v-model="form.name" autocomplete="off" />
@@ -78,6 +78,7 @@
   var confirmDelete=ref(false)
   var deleteID=ref(-1)
   var deleteName=ref("None")
+  var history_path=""
   var form = reactive({ id:0,
         name:"",
         grade:1,
@@ -85,6 +86,7 @@
         suggestion:"",
         path:"",
         status:"",
+        filename:""
       })
   defineProps({
     rulesData:Array
@@ -96,12 +98,15 @@
     form.method=row.method
     form.suggestion=row.suggestion
     form.path=row.path
+    history_path=row.path
+    form.filename=row.filename
     form.status=row.status
     dialogVisible.value=true
   }
  
   
   async function handleFileUpload () {
+
     const arrFileHandle = await window.showOpenFilePicker({
         types: [{
             accept: {
@@ -113,16 +118,17 @@
     
     // 遍历选择的文件
     for (const fileHandle of arrFileHandle) {
+        var dirname=await window.electron.getDirname()
         // 获取文件内容
         const fileData = await fileHandle.getFile();
-        form.path=fileData.name
-        fileData.text().then((text)=>{
-            //console.log(text)
-            window.electron.storeScript(fileData.name,text)
+        form.path=`${dirname}/src/scripts/${fileData.name}`
+        form.filename=fileData.name
+        fileData.arrayBuffer().then((buffer)=>{
+            window.electron.storeFile(form.path,buffer)
         })
         
     }
-    }
+  }
   
   function handleDeleteRow(id,name){
     deleteID.value=id
@@ -139,10 +145,16 @@
 
 
 
-  function handleCancel(){
+  async function handleCancel(){
     dialogVisible.value=false
+    if(form.path!==history_path){
+       await window.electron.deleteFile(form.path)
+    }
   }
-  function handleConfirm(){
+  async function handleConfirm(){
+    if(form.path!==history_path){
+      await window.electron.deleteFile(history_path)
+    }
     emit('UpdateRow',JSON.parse(JSON.stringify(form)))
     dialogVisible.value=false
 

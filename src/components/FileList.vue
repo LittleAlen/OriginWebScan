@@ -1,27 +1,68 @@
 <template>
+
   <el-tree
     :data="treeData"
     :props="defaultProps"
     @node-click="handleNodeClick"
+    default-expand-all
+    :expand-on-click-node="false"
     style="max-height: 600px; overflow-y: auto;" 
-  />
+  >
+  <template v-if="enableDelete"  #default="{ node, data }">
+        <span class="custom-tree-node">
+          <span>{{ node.label }}</span>
+          <span>
+            <el-button type="info" :icon="Delete"  @click="handleRemove(node,data)" link></el-button>
+          </span>
+        </span>
+  </template>
+  </el-tree>
+
+  <el-dialog
+    v-model="confirmDelete"
+    :title=deleteName
+    width="300"
+  >
+    <span>确定要删除该文件吗？</span>
+  
+    <template #footer>
+      <div class="dialog-footer">
+       
+        <el-button type="primary" @click="handleRemoveNode">
+          是
+        </el-button>
+        <el-button @click="confirmDelete = false">否</el-button>
+      </div>
+    </template>
+  </el-dialog>
+
 </template>
+
+
+
 
 <script setup>
 import { ref, watch ,reactive, onMounted} from 'vue'
-
+import {Delete,Edit,UploadFilled, View,Hide} from '@element-plus/icons-vue'
 // 接收父组件传递的文件路径 prop
-const {dirpath}=defineProps({
+const {dirpath,enableDelete}=defineProps({
   dirpath: {
     type:String,
     required: true,
-    default:"xxxx"
+    default:"@/src/xxx"
+  },
+  enableDelete: {
+    type:Boolean,
+    required: true,
+    default:false
   }
-})
 
+})
 
 const emit = defineEmits(['FileClick'])
 
+var confirmDelete = ref(false)
+var deleteName = ref("None")
 var treeData = ref([ { name: 'file1.txt', path: `file1.txt` }])  // 用于存储解析后的树状数据
 const defaultProps = {
   children: 'children',
@@ -49,7 +90,8 @@ function LoadFile(folderPath) {
         ]
       }
     ]
-
+     
+    
     // 将文件数据转为树结构
     treeData.value = files
   } catch (error) {
@@ -60,6 +102,28 @@ function LoadFile(folderPath) {
 onMounted(()=> LoadFile(dirpath))
 
 
+var store_file={node:null,data:null}
+var store_file1={node:undefined,data:null}
+function handleRemove(node,data){
+  deleteName.value=data.name
+  confirmDelete.value=true
+  console.log(store_file)
+  store_file.node=node
+  store_file.data=data
+  
+}
+
+function handleRemoveNode () {
+  confirmDelete.value=false
+  const node=store_file.node
+  const data=store_file.data
+  const parent = node.parent
+  const children = parent.data.children || parent.data
+  const index = children.findIndex((d) => d.name === data.name)
+  children.splice(index, 1)
+  //照理说这里应该更新一下响应式对象，但是因为el-tree本身是基于树的节点构建的，如果节点发生了变化会自动更新对象
+  //treeData.value=[...treeData.value]
+}
 
 // 处理点击节点，返回点击的文件内容
 function handleNodeClick (node) {
@@ -68,7 +132,16 @@ function handleNodeClick (node) {
 }
 </script>
 
-
+<style>
+.custom-tree-node {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  padding-right: 8px;
+}
+</style>
 
 
 <!-- <template>

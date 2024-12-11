@@ -1,16 +1,16 @@
 "use strict"
 const fs = require('fs');
-
 var context = require.context('./../../src/scripts/', false, /\.js$/);
 class Rule{
-    constructor(id=1,name="VulnerabilityName",filepath="PathToScript",grade=5,method="TriggerWay",suggestion="Suggestion",status=true){
+    constructor(id=1,name="VulnerabilityName",filepath="PathToScript",grade=5,method="TriggerWay",suggestion="Suggestion",status=true,filename){
         this.id=id
         this.name=name
         this.grade=grade
         this.method=method
         this.suggestion=suggestion
         this.path=filepath
-        this.status=status;
+        this.status=status
+        this.filename=filename
         // console.log(process.versions.node);
         // console.log("!!!!!1  "+__dirname)
         try{
@@ -18,11 +18,13 @@ class Rule{
             // var path=`./../../src/scripts/${path}`
             
         //this.function = require(`./../../src/scripts/${path}`)
-        this.function = context(`./${filepath}`)
+            //this.loadModule()
+        this.function = context(`./${filename}`)
        
         }
         catch(E){
-            console.log("INFO: Need to restart Origin to enable new script.")
+            console.log(E)
+            console.log("INFO: Need to restart Origin to enable new script.  ",filepath)
             this.function=  (req)=>{return [false]}
         }
         // const kk='./../../src/core/xss.js'
@@ -32,7 +34,13 @@ class Rule{
         
 
     }
-    
+    async loadModule() {
+        try {
+            this.function = await import(this.path)
+        } catch (err) {
+          console.error('Error loading module:', err);
+        }
+    }
    
 }
 

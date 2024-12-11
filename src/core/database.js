@@ -6,12 +6,12 @@ const Rule=require("./Rule");
 async function readRules(){
 
   var rules=[]
-  var data=  fs.readFileSync('src/scripts/database.txt', { encoding: 'utf8' });
+  var data=  fs.readFileSync('./src/scripts/database.txt', { encoding: 'utf8' });
   
     data=JSON.parse(data)
     // console.log(data)
     for(let i=0;i<data.length;i++){
-        rules.push(new Rule(data[i].id,data[i].name ,data[i].path ,data[i].grade,data[i].method ,data[i].suggestion,data[i].status))
+        rules.push(new Rule(data[i].id,data[i].name ,data[i].path ,data[i].grade,data[i].method ,data[i].suggestion,data[i].status,data[i].filename))
     }
     //console.log(rules)
     // rules[0].function()

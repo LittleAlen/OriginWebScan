@@ -1,9 +1,14 @@
 import { BrowserWindow} from 'electron'
 import OriginScan from "./run"
 import RequestParser from './RequestParser'
-const fs = require("fs")
+import fs from 'fs'
+import path from 'path'
 import readRules from "./database"
-var {control_status,store_cookie} = require("./WebSpider")
+// var {control_status,store_cookie} = require("./WebSpider")
+import { control_status, store_cookie } from './WebSpider'
+
+
+
 export function handleSetTitle (event, title) {
     const webContents = event.sender
     const win= BrowserWindow.fromWebContents(webContents)
@@ -65,32 +70,27 @@ export async function handleStoreRules(event,rules){
     
 }
 
-export async function handelDeleteScript(event,name){
-    var path="src/scripts/"+name
-    fs.access(path, fs.constants.F_OK, (err) => {
-        if (err) {
-          console.error('File does not exist');
-        } else {
-        // console.log('File exists');
-        fs.unlink(path, (err) => {
-            if (err) {
-              console.error('ERROR: Error deleting file:', err);
-            } else {
-              console.log('INFO: File deleted successfully');
-            }
-          });
-        }
-      });
+export async function handelDeleteFile(event,path){
+    fs.rm(path,(err)=>{
+      if(err){
+        console.error('ERROR: Error deleting file:', err);
+      } else {
+        console.log('INFO: File deleted successfully',path);
+      }
+    })
+
+   
 }
-export async function handelStoreScript(event,name,text){
-    var path="src/scripts/"+name
-    fs.writeFile(path, text, (err) => {
+export async function handelStoreFile(event,path,buffer){
+    
+    fs.writeFile(path, Buffer.from(buffer), (err) => {
         if (err) {
           console.error('ERROR: Error writing file:', err);
         } else {
-          console.log('INFO: File written successfully');
+          console.log('INFO: File written successfully ',path);
         }
       });
+
 }
 
 export async function handleSetControlStatus(event,status){
@@ -99,3 +99,36 @@ export async function handleSetControlStatus(event,status){
     console.log("INFO: Control Status: [Running,DomainScan,StaticRender]")
     console.log("INFO: ",status)
 }
+
+
+export function handleScanDirectory(event,dirPath) {
+  // 读取目录中的所有文件和文件夹
+  var res=[]
+  fs.readdir(dirPath, { withFileTypes: true }, (err, files) => {
+    if (err) {
+      console.error('Error reading directory:', err);
+      return;
+    }
+
+    // 遍历每个文件/文件夹
+    files.forEach(file => {
+      var node={name:undefined,path:undefined,children:[]}
+      const fullPath = path.join(dirPath, file.name)
+     
+      if (file.isDirectory()) {
+        // 如果是文件夹，则递归调用 scanDirectory
+        node.children=scanDirectory(fullPath)
+      }
+      node.name=file.name
+      node.path=fullPath
+      res.push(node)
+    })
+  })
+  return res
+}
+
+export function getDirname(event){
+ 
+  return path.dirname(__dirname)
+}
+

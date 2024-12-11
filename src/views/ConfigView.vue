@@ -92,6 +92,7 @@
         suggestion:"",
         path:"",
         status:true,
+        filename:""
       })
   defineProps({
     rulesData:Array
@@ -114,9 +115,10 @@
     form.method=""
     form.suggestion=""
     if(form.path!==""){
-       await window.electron.deleteScript(form.path)
+       await window.electron.deleteFile(form.path)
     }
     form.path=""
+    form.filename=""
     dialogVisible.value=false
   }
   async function handleConfirm(){
@@ -128,10 +130,15 @@
     form.method=""
     form.suggestion=""
     form.path=""
+    form.filename=""
     dialogVisible.value=false
   }
 
   async function handleFileUpload () {
+    if(form.path!==""){
+       await window.electron.deleteFile(form.path)
+       form.path=""
+    }
     const arrFileHandle = await window.showOpenFilePicker({
         types: [{
             accept: {
@@ -144,11 +151,13 @@
     // 遍历选择的文件
     for (const fileHandle of arrFileHandle) {
         // 获取文件内容
+        var dirname= await window.electron.getDirname()
         const fileData = await fileHandle.getFile();
-        form.path=fileData.name
-        fileData.text().then((text)=>{
+        form.path=`${dirname}/src/scripts/${fileData.name}`
+        form.filename=fileData.name
+        fileData.arrayBuffer().then((buffer)=>{
             //console.log(text)
-            window.electron.storeScript(fileData.name,text)
+            window.electron.storeFile(form.path,buffer)
         })
         
     }
@@ -167,7 +176,7 @@
         for(let i=0;i<rulesData.length;i++){
             //console.log(rulesData[i])
             if(rulesData[i].id==id){
-                await window.electron.deleteScript(rulesData[i].path)
+                await window.electron.deleteFile(rulesData[i].path)
                 rulesData.splice(i,1)
                 break
             }

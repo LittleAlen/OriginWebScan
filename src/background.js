@@ -78,15 +78,18 @@ app.on('ready', async () => {
     // }
   }
 
-  // events register
+  // events register 
   ipcMain.on('set-title', events.handleSetTitle)
   ipcMain.handle("Start",events.handelStart)
   ipcMain.handle("Stop",events.handelStop)
   ipcMain.handle("GetRules",events.handleGetRules)
   ipcMain.handle("StoreRules",events.handleStoreRules)
-  ipcMain.on("DeleteScript",events.handelDeleteScript)
-  ipcMain.on("StoreScript",events.handelStoreScript)
+  ipcMain.on("DeleteFile",events.handelDeleteFile)
+  ipcMain.on("StoreFile",events.handelStoreFile)
   ipcMain.on("SetControlStatus",events.handleSetControlStatus)
+  ipcMain.handle("GetDirpath",events.getDirname)
+  ipcMain.handle("ScanDirectory",events.handleScanDirectory)
+
   createWindow()
 })
 
