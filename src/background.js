@@ -86,6 +86,8 @@ app.on('ready', async () => {
   ipcMain.handle("StoreRules",events.handleStoreRules)
   ipcMain.on("DeleteFile",events.handelDeleteFile)
   ipcMain.on("StoreFile",events.handelStoreFile)
+  ipcMain.on("MoveFile",events.handelMoveFile)
+  ipcMain.handle("GetFile",events.handelGetFile)
   ipcMain.on("SetControlStatus",events.handleSetControlStatus)
   ipcMain.handle("GetDirpath",events.getDirname)
   ipcMain.handle("ScanDirectory",events.handleScanDirectory)

@@ -2,7 +2,7 @@ import { BrowserWindow} from 'electron'
 import OriginScan from "./run"
 import RequestParser from './RequestParser'
 import fs from 'fs'
-import path from 'path'
+import path, { resolve } from 'path'
 import readRules from "./database"
 // var {control_status,store_cookie} = require("./WebSpider")
 import { control_status, store_cookie } from './WebSpider'
@@ -71,7 +71,7 @@ export async function handleStoreRules(event,rules){
 }
 
 export async function handelDeleteFile(event,path){
-    fs.rm(path,(err)=>{
+    fs.rm(path,{ recursive: true, force: true },(err)=>{
       if(err){
         console.error('ERROR: Error deleting file:', err);
       } else {
@@ -93,6 +93,36 @@ export async function handelStoreFile(event,path,buffer){
 
 }
 
+export async function handelMoveFile(event,srcpath,despath){
+  
+  var data=await handelGetFile(null,srcpath)
+  fs.writeFile(despath, data, (err) => {
+      if (err) {
+        console.error('ERROR: Error writing file:', err);
+      } else {
+        console.log('INFO: File written successfully ',despath);
+      }
+    });
+
+}
+export async function handelGetFile(event,path){
+    
+  return new Promise((resolve,reject)=>{
+
+    fs.readFile(path,(err,data)=>{
+      if (err) {
+        console.error('ERROR: Error read file:', err);
+      } else {
+        console.log('INFO: File Read successfully ',path);
+        resolve(data)
+      }
+    })
+   
+  })
+
+}
+
+
 export async function handleSetControlStatus(event,status){
     for(let i=0;i<control_status.length;i++)
       control_status[i]=status[i]
@@ -101,30 +131,39 @@ export async function handleSetControlStatus(event,status){
 }
 
 
-export function handleScanDirectory(event,dirPath) {
-  // 读取目录中的所有文件和文件夹
-  var res=[]
-  fs.readdir(dirPath, { withFileTypes: true }, (err, files) => {
-    if (err) {
-      console.error('Error reading directory:', err);
-      return;
-    }
+export async function handleScanDirectory(event,dirpath) {
+  return  await ScanDirectory(dirpath)
+}
 
-    // 遍历每个文件/文件夹
-    files.forEach(file => {
-      var node={name:undefined,path:undefined,children:[]}
-      const fullPath = path.join(dirPath, file.name)
-     
-      if (file.isDirectory()) {
-        // 如果是文件夹，则递归调用 scanDirectory
-        node.children=scanDirectory(fullPath)
+async function  ScanDirectory(dirpath){
+  return new Promise((resolve,reject)=>{
+    // 读取目录中的所有文件和文件夹
+    var res=[]
+    fs.readdir(dirpath, { withFileTypes: true }, async (err, files) => {
+      if (err) {
+        console.error('Error reading directory:', err);
+        reject(err)
       }
-      node.name=file.name
-      node.path=fullPath
-      res.push(node)
+
+      // 遍历每个文件/文件夹
+      for (let file of files) {
+        var node={name:undefined,path:undefined,filetype:undefined,children:[]}
+        const fullPath = path.join(dirpath, file.name)
+      
+        if (file.isDirectory()) {
+          // 如果是文件夹，则递归调用 handleScanDirectory
+          node.children=await ScanDirectory(fullPath)
+          node.filetype="dir"
+        }else{
+          node.filetype="file"
+        }
+        node.name=file.name
+        node.path=fullPath
+        res.push(node)
+      }
+      resolve(res)
     })
   })
-  return res
 }
 
 export function getDirname(event){

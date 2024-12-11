@@ -1,5 +1,5 @@
 <template>
-    <el-table :data="tableData"
+    <el-table v-loading="loading" :data="tableData"
      :default-sort="{ prop: 'grade', order: 'descending' }" 
     height="250" style="width: 100%">
       <el-table-column prop="name" label="漏洞名称" align="center" />
@@ -53,7 +53,7 @@
   defineProps({
     tableData:Array,
     hostname:String,
-
+    loading:Boolean
   })
   function check(row){
     output.value=row

@@ -10,7 +10,7 @@
 
   </el-row>
   <el-row :gutter="2">
-    <el-col :span="24"><div class="grid-content ep-bg-purple" /><DataList :table-data="tableData" :hostname="hostname" /></el-col>
+    <el-col :span="24"><div class="grid-content ep-bg-purple" /><DataList :loading="running" :table-data="tableData" :hostname="hostname" /></el-col>
   </el-row>
 
   <el-dialog v-model="ClipboardVisible"  >
