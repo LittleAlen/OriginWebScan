@@ -31,7 +31,7 @@
     var filepath=`${dirname}/log/output.log`
     timer=setInterval(()=>{
       GetOutput(filepath)
-    },5000)
+    },2000)
   })
   onBeforeUnmount(()=>{
     clearInterval(timer)

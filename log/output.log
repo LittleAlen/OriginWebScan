@@ -1,7 +1,9 @@
 /Users/fengyuanqiu/Desktop/WebScanTool/origin/dist_electron
-(node:36416) [DEP0128] DeprecationWarning: Invalid 'main' field in '/Users/fengyuanqiu/Desktop/WebScanTool/origin/dist_electron/package.json' of 'background.js'. Please either fix that or report it to the module author
+(node:93658) [DEP0128] DeprecationWarning: Invalid 'main' field in '/Users/fengyuanqiu/Desktop/WebScanTool/origin/dist_electron/package.json' of 'background.js'. Please either fix that or report it to the module author
 (Use `Electron --trace-deprecation ...` to show where the warning was created)
 INFO: Control Status: [Running,DomainScan,StaticRender]
 INFO:  [ false, false, true ]
-INFO: File Read successfully  /Users/fengyuanqiu/Desktop/WebScanTool/origin/src/scripts/csrf.js
-INFO: File written successfully  /Users/fengyuanqiu/Desktop/WebScanTool/origin/src/resource/csrf.js
+INFO: Control Status: [Running,DomainScan,StaticRender]
+INFO:  [ false, false, true ]
+INFO: Control Status: [Running,DomainScan,StaticRender]
+INFO:  [ false, false, true ]

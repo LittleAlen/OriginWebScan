@@ -3,7 +3,7 @@
     <el-col :span="10"><div class="grid-content ep-bg-purple" /><el-input v-model="url" placeholder="粘贴URL至此栏" :disabled="Disabled" /></el-col>
     <el-col :span="6"><div class="grid-content ep-bg-purple" /><el-button type="primary" :icon="Edit" @click="CopyRequest">从剪切板导入</el-button></el-col>
 
-    <el-col :span="4"><div class="grid-content ep-bg-purple" /><el-button type="primary" :icon="Document" >从文件导入</el-button></el-col>
+    <el-col :span="4"><div class="grid-content ep-bg-purple" /><el-button type="primary" :icon="Document" @click="FileRequest" >从文件导入</el-button></el-col>
 
     <el-col :span="4" v-show="!running" ><div class="grid-content ep-bg-purple" /><el-button  @click="start" type="success" :icon="SwitchButton" round >启动</el-button></el-col>
     <el-col :span="4" v-show="running" ><div class="grid-content ep-bg-purple" /><el-button @click="stop" type="danger" :icon="Eleme" round   >停止</el-button></el-col>
@@ -63,6 +63,20 @@ async function handleConfirm(){
 
 }
 
+async function FileRequest(){
+    const arrFileHandle = await window.showOpenFilePicker()
+    
+    // 遍历选择的文件
+    for (const fileHandle of arrFileHandle) {
+        // 获取文件内容
+        const fileData = await fileHandle.getFile();
+        fileData.arrayBuffer().then((buffer)=>{
+            rawRequest.value=new TextDecoder('utf-8').decode(buffer)
+  
+        })
+        
+    }
+}
 
 
 </script>

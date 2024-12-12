@@ -1,13 +1,22 @@
 <template>
-  <h1>Origin--漏洞扫描工具介绍</h1>
-  Title: <input id="title" v-model="val" />
+  <h1>Origin-Web漏洞扫描工具</h1>
+  
+  <p>
+      Origin是面向漏洞规则管理的Web漏扫工具
+      <br> 支持用户自定义扫描脚本，上传脚本后，可通过源代码、运行输出来编辑调试
+      <br>支持收录各个Web漏洞的playload于resource文件夹，然后通过js调用
+  </p>
+
+
+  <el-divider />
+  小彩蛋: <input id="title" v-model="val" />
     <button id="btn" type="button" @click="k">Set</button>
-    <p>测试输出</p>
+    <p></p>
       <el-input
         v-model="text"
         :rows="2"
         type="textarea"
-        placeholder="Please input"
+        readonly
       />
 
 
