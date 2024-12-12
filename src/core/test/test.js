@@ -41,8 +41,15 @@
 // }
 // kk()
 
-const dynamicCode = '() => {  return "Dynamic string from eval"; }';
+// const dynamicCode = '() => {  return "Dynamic string from eval"; }';
 
-const dynamicFunction = eval(`(${dynamicCode})`);
+// const dynamicFunction = eval(`(${dynamicCode})`);
 
-console.log(dynamicFunction()); // 输出 "Dynamic string from eval"
+// console.log(dynamicFunction()); // 输出 "Dynamic string from eval"
+
+function f(path){
+    console.log(path)
+    path = "124"+path
+    console.log(path)
+}
+f("hello")

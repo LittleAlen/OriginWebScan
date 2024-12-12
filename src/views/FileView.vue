@@ -118,7 +118,7 @@ async function handleConfirm(){
   fileList.value.forEach(async (fileObj)=>{
     try{ 
       var file=fileObj.raw
-      console.log(file)
+      // console.log(file)
       await window.electron.moveFile(file.path,dirname+file.name)
       ElMessage({
         message:"文件上传成功",

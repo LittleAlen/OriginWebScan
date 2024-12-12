@@ -2,7 +2,7 @@ import { BrowserWindow} from 'electron'
 import OriginScan from "./run"
 import RequestParser from './RequestParser'
 import fs from 'fs'
-import path, { resolve } from 'path'
+import path from 'path'
 import readRules from "./database"
 // var {control_status,store_cookie} = require("./WebSpider")
 import { control_status, store_cookie } from './WebSpider'
@@ -71,13 +71,25 @@ export async function handleStoreRules(event,rules){
 }
 
 export async function handelDeleteFile(event,filepath){
-    fs.rm(filepath,{ recursive: true, force: true },(err)=>{
-      if(err){
-        console.error('ERROR: Error deleting file:', err);
-      } else {
-        console.log('INFO: File deleted successfully',filepath);
-      }
-    })
+    var file=await fs.promises.stat(filepath)
+    if(file.isDirectory())
+    {
+        fs.rm(filepath,{ recursive: true, force: true },(err)=>{
+        if(err){
+          console.error('ERROR: Error deleting directory:', err);
+        } else {
+          console.log('INFO: Directory deleted successfully',filepath);
+        }
+      })
+    }else{
+      fs.rm(filepath,(err)=>{
+        if(err){
+          console.error('ERROR: Error deleting file:', err);
+        } else {
+          console.log('INFO: File deleted successfully',filepath);
+        }
+      })
+    }
 
    
 }
@@ -86,7 +98,7 @@ export async function handelStoreFile(event,filepath,buffer){
   fs.writeFile(filepath, Buffer.from(buffer), (err) => {
     if (err) {
       console.error('ERROR: Error writing file:', err);
-    } else {
+    } else  {
       console.log('INFO: File written successfully ',filepath);
     }
   });
@@ -97,7 +109,6 @@ export async function handelStoreFile(event,filepath,buffer){
 export async function handelMoveFile(event,srcpath,despath){
   
   var data=await handelGetFile(null,srcpath)
-  console.log(path.extname(despath).toLowerCase())
   if(path.extname(despath).toLowerCase()===".zip"){
     const directory=path.dirname(despath)
     const zip = new AdmZip(data)
@@ -120,10 +131,12 @@ export async function handelGetFile(event,filepath){
     fs.readFile(filepath,(err,data)=>{
       if (err) {
         console.error('ERROR: Error read file:', err);
-      } else {
+        reject(`ERROR: in handelGetFile ${filepath}`)
+      } else if(filepath.includes("log/output.log")==false){
         console.log('INFO: File Read successfully ',filepath);
-        resolve(data)
       }
+      resolve(data)
+
     })
    
   })

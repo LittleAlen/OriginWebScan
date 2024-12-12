@@ -4,10 +4,31 @@ import { app, protocol, BrowserWindow,ipcMain } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 import * as events from './core/events.js'
+import fs from 'fs'
+import path from 'path'
+
+
+//重定向日志
+const formatDate = () => {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0'); // 月份从0开始
+  const day = String(now.getDate()).padStart(2, '0');
+  return `${year}_${month}_${day}`;
+};
+// 创建写入流
+// var logpath=`${path.dirname(__dirname)}/log/${formatDate()}_output.log`
+var logpath=`${path.dirname(__dirname)}/log/output.log`
+fs.writeFileSync(logpath, '');
+const logFile = fs.createWriteStream(logpath, { flags: 'a' });
+const errorFile = fs.createWriteStream(logpath, { flags: 'a' });
+
+// 将标准输出和错误流重定向到文件
+process.stdout.write = logFile.write.bind(logFile);
+process.stderr.write = errorFile.write.bind(errorFile);
 
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
-const path = require('path')
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } }
