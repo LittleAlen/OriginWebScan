@@ -27,6 +27,8 @@ const errorFile = fs.createWriteStream(logpath, { flags: 'a' });
 process.stdout.write = logFile.write.bind(logFile);
 process.stderr.write = errorFile.write.bind(errorFile);
 
+// let filePath = path.join(app.getAppPath(), 'server/myfile.txt');
+// console.log(filePath)
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 // Scheme must be registered before the app is ready
@@ -62,8 +64,8 @@ async function createWindow() {
     // Load the url of the dev server if in development mode
     await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
     //打开控制台
-    if (!process.env.IS_TEST)
-     win.webContents.openDevTools()
+    // if (!process.env.IS_TEST)
+    //  win.webContents.openDevTools()
   } else {
     createProtocol('app')
     // Load the index.html when not in development

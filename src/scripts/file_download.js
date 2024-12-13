@@ -4,7 +4,7 @@ const ResponseParser=require("../core/ResponseParser.js")
 const { default: axios } = require("axios")
 
 const {store_cookie} = require("../core/WebSpider.js")
-// var response = await axios({
+// var response = await axios({   
 //     url:req.url,
 //     method:req.request.request_line.method,
 //     data:req.data,
