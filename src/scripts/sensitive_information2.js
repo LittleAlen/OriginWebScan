@@ -62,8 +62,8 @@ async function Check(req=new RequestParser("http://127.0.0.1")){
                         return status<500
                     }
                 })
-               // console.log(origin+"/"+path)
-                if(response.status>=200&&response.status<400)
+                // console.log(origin+"/"+path)
+                if(response.status>=200&&response.status<400&&response.data.match(/404|not\s+found/i)===null)
                     result.push([`主域名下存在网站备份文件，${origin+"/"+path}`,""])
             }
 

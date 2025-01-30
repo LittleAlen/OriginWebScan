@@ -1,12 +1,19 @@
 'use strict'
 
-import { app, protocol, BrowserWindow,ipcMain } from 'electron'
-import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
-import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
-import * as events from './core/events.js'
-import fs from 'fs'
-import path from 'path'
+const { app, protocol, BrowserWindow,ipcMain } = require( 'electron')
+//const { createProtocol } =require('vue-cli-plugin-electron-builder/lib')
+//const {installExtension, VUEJS3_DEVTOOLS } =require( 'electron-devtools-installer')
+const events = require('./core/events.js')
+const fs = require('fs')
+const path = require('path')
+// import { app, protocol, BrowserWindow,ipcMain } from 'electron'
+// import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
+// import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
+// import * as events from './core/events.js'
+// import fs from 'fs'
+// import path from 'path'
 
+console.log("INFO:ProcessDirname",process.cwd())
 
 //重定向日志
 const formatDate = () => {
@@ -18,7 +25,7 @@ const formatDate = () => {
 };
 // 创建写入流
 // var logpath=`${path.dirname(__dirname)}/log/${formatDate()}_output.log`
-var logpath=`${path.dirname(__dirname)}/log/output.log`
+var logpath=`${process.cwd()}/log/output.log`
 fs.writeFileSync(logpath, '');
 const logFile = fs.createWriteStream(logpath, { flags: 'a' });
 const errorFile = fs.createWriteStream(logpath, { flags: 'a' });
@@ -35,8 +42,8 @@ const isDevelopment = process.env.NODE_ENV !== 'production'
 protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } }
 ])
-// console.log(process.env.ELECTRON_NODE_INTEGRATION)
-// console.log(__dirname)
+
+
 console.log(app.getAppPath())
 async function createWindow() {
   // Create the browser window.
@@ -58,18 +65,20 @@ async function createWindow() {
 
 
 
-
-
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
     await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
     //打开控制台
-    // if (!process.env.IS_TEST)
-    //  win.webContents.openDevTools()
+    if (!process.env.IS_TEST)
+     win.webContents.openDevTools()
   } else {
-    createProtocol('app')
+    //createProtocol('app')
     // Load the index.html when not in development
-    win.loadURL('app://./index.html')
+    //win.loadURL('app://./index.html')
+    //打开控制台
+    if (!process.env.IS_TEST)
+      win.webContents.openDevTools()
+    win.loadFile(path.join(__dirname,'..','dist_electron' ,'index.html'))
   }
 }
 

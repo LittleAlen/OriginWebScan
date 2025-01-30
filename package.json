@@ -1,16 +1,13 @@
 {
   "name": "origin",
   "version": "1.0.0",
-  "private": true,
-  "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "electron:build": "vue-cli-service electron:build",
-    "electron:serve": "vue-cli-service electron:serve",
-    "postinstall": "electron-builder install-app-deps",
-    "postuninstall": "electron-builder install-app-deps"
-  },
   "main": "background.js",
+  "description": "Web Vulnerability Scan Tool!",
+  "scripts": {
+    "estart": "electron src/background.js",
+    "vbuild": "vue-cli-service build",
+    "vserve": "vue-cli-service serve"
+  },
   "dependencies": {
     "@element-plus/icons-vue": "^2.1.0",
     "adm-zip": "^0.5.16",
@@ -32,8 +29,7 @@
     "electron": "^24.8.1",
     "electron-devtools-installer": "^3.1.0",
     "sass": "^1.32.7",
-    "sass-loader": "^12.0.0",
-    "vue-cli-plugin-electron-builder": "~2.1.1"
-  }
-
+    "sass-loader": "^12.0.0"
+  },
+  "packageManager": "yarn@1.22.19+sha1.4ba7fc5c6e704fce2066ecbfb0b0d8976fe62447"
 }

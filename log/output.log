@@ -1,2 +1,4 @@
+/Users/fengyuanqiu/Desktop/WebScanTool/origin/src
 INFO: Control Status: [Running,DomainScan,StaticRender]
-INFO:  [ false, false, true ]
+INFO:  [ [33mfalse[39m, [33mfalse[39m, [33mtrue[39m ]
+INFO: Scan Result  [33m46[39m

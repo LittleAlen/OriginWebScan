@@ -1,6 +1,6 @@
 "use strict"
 const fs = require('fs');
-var context = require.context('./../../src/scripts/', false, /\.js$/);
+//var context = require.context('./../../src/scripts/', false, /\.js$/);
 class Rule{
     constructor(id=1,name="VulnerabilityName",filepath="PathToScript",grade=5,method="TriggerWay",suggestion="Suggestion",status=true,filename){
         this.id=id
@@ -8,18 +8,17 @@ class Rule{
         this.grade=grade
         this.method=method
         this.suggestion=suggestion
-        this.path=filepath
+        this.path=process.cwd()+"/src/scripts/"+filename
         this.status=status
         this.filename=filename
-        // console.log(process.versions.node);
-        // console.log("!!!!!1  "+__dirname)
+       
         try{
             // console.log(`./../../src/scripts/${path}`)
             // var path=`./../../src/scripts/${path}`
             
-        //this.function = require(`./../../src/scripts/${path}`)
+        this.function = require(`${process.cwd()}/src/scripts/${filename}`)
             //this.loadModule()
-        this.function = context(`./${filename}`)
+        //this.function = context(`./${filename}`)
        
         }
         catch(E){

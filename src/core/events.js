@@ -1,15 +1,15 @@
-import { BrowserWindow} from 'electron'
-import OriginScan from "./run"
-import RequestParser from './RequestParser'
-import fs from 'fs'
-import path from 'path'
-import readRules from "./database"
+const { BrowserWindow} =require( 'electron')
+const OriginScan =require( "./run")
+const RequestParser =require( './RequestParser')
+const fs =require( 'fs')
+const path =require( 'path')
+const readRules =require( "./database")
 // var {control_status,store_cookie} = require("./WebSpider")
-import { control_status, store_cookie } from './WebSpider'
-import AdmZip from 'adm-zip'
+const { control_status, store_cookie } =require( './WebSpider')
+const AdmZip =require( 'adm-zip')
 
 
-export function handleSetTitle (event, title) {
+function handleSetTitle (event, title) {
     const webContents = event.sender
     const win= BrowserWindow.fromWebContents(webContents)
     
@@ -17,7 +17,7 @@ export function handleSetTitle (event, title) {
     win.webContents.send("text",`hello, I have changed the title to ${title}`)
 }
 
-export async function handelStart(event,url="",rawRequest="",filePath=""){
+async function handelStart(event,url="",rawRequest="",filePath=""){
     const webContents = event.sender
     const win= BrowserWindow.fromWebContents(webContents)
     // console.log("__________________________________________________")
@@ -39,12 +39,12 @@ export async function handelStart(event,url="",rawRequest="",filePath=""){
     return [hostname,result]
 }
 
-export async function handelStop(event){
+async function handelStop(event){
   control_status[0]=false
   return
 }
 
-export async function handleGetRules(){
+async function handleGetRules(){
     //console.log("Get Rules")
     var result=[]
     var rules= await readRules()
@@ -56,7 +56,7 @@ export async function handleGetRules(){
     return result
 }
 
-export async function handleStoreRules(event,rules){
+async function handleStoreRules(event,rules){
     //console.log("Store rule")
     //console.log(rules)
     fs.writeFile('src/scripts/database.txt', JSON.stringify(rules), (err) => {
@@ -70,7 +70,7 @@ export async function handleStoreRules(event,rules){
     
 }
 
-export async function handelDeleteFile(event,filepath){
+async function handelDeleteFile(event,filepath){
     var file=await fs.promises.stat(filepath)
     if(file.isDirectory())
     {
@@ -93,7 +93,7 @@ export async function handelDeleteFile(event,filepath){
 
    
 }
-export async function handelStoreFile(event,filepath,buffer){
+async function handelStoreFile(event,filepath,buffer){
     
   fs.writeFile(filepath, Buffer.from(buffer), (err) => {
     if (err) {
@@ -105,8 +105,8 @@ export async function handelStoreFile(event,filepath,buffer){
     
 
 }
-
-export async function handelMoveFile(event,srcpath,despath){
+//面向编辑界面的接口
+async function handelMoveFile(event,srcpath,despath){
   
   var data=await handelGetFile(null,srcpath)
   if(path.extname(despath).toLowerCase()===".zip"){
@@ -124,7 +124,7 @@ export async function handelMoveFile(event,srcpath,despath){
       });
   }
 }
-export async function handelGetFile(event,filepath){
+async function handelGetFile(event,filepath){
     
   return new Promise((resolve,reject)=>{
 
@@ -144,7 +144,7 @@ export async function handelGetFile(event,filepath){
 }
 
 
-export async function handleSetControlStatus(event,status){
+async function handleSetControlStatus(event,status){
     for(let i=0;i<control_status.length;i++)
       control_status[i]=status[i]
     console.log("INFO: Control Status: [Running,DomainScan,StaticRender]")
@@ -152,7 +152,7 @@ export async function handleSetControlStatus(event,status){
 }
 
 
-export async function handleScanDirectory(event,dirpath) {
+async function handleScanDirectory(event,dirpath) {
   return  await ScanDirectory(dirpath)
 }
 
@@ -187,8 +187,21 @@ async function  ScanDirectory(dirpath){
   })
 }
 
-export function getDirname(event){
- 
-  return path.dirname(__dirname)
+function getDirname(event){
+  return process.cwd()
 }
 
+module.exports = {
+  handleSetTitle,
+  handelStart,
+  handelStop,
+  handleGetRules,
+  handleStoreRules,
+  handelDeleteFile,
+  handelStoreFile,
+  handelMoveFile,
+  handelGetFile,
+  handleSetControlStatus,
+  getDirname,
+  handleScanDirectory
+}
