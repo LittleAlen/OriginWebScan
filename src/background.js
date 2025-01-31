@@ -1,11 +1,20 @@
 'use strict'
 
+function getResourcePath() {
+  if (process.env.NODE_ENV === 'development') {
+    return process.cwd()
+  } else {
+    return process.resourcesPath
+  }
+}
 const { app, protocol, BrowserWindow,ipcMain } = require( 'electron')
 //const { createProtocol } =require('vue-cli-plugin-electron-builder/lib')
 //const {installExtension, VUEJS3_DEVTOOLS } =require( 'electron-devtools-installer')
 const events = require('./core/events.js')
 const fs = require('fs')
 const path = require('path')
+require('dotenv').config();
+
 // import { app, protocol, BrowserWindow,ipcMain } from 'electron'
 // import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 // import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
@@ -13,8 +22,11 @@ const path = require('path')
 // import fs from 'fs'
 // import path from 'path'
 
-// console.log("INFO:ProcessDirname",process.cwd())
-// console.log(app.getAppPath())
+
+// console.log("INFO:ProcessDirname",process.cwd())//origin
+// console.log(app.getAppPath()) //src
+// console.log(process.resourcesPath)
+//console.log(process.env.NODE_ENV)
 //重定向日志
 const formatDate = () => {
   const now = new Date();
@@ -25,7 +37,11 @@ const formatDate = () => {
 };
 // 创建写入流
 // var logpath=`${path.dirname(__dirname)}/log/${formatDate()}_output.log`
-var logpath=`${process.cwd()}/log/output.log`
+//var logpath=`${getResourcePath()}/log/output.log`
+var logpath=path.join(getResourcePath(),'log','output.log')
+// if(!fs.existsSync(path.dirname(logpath))){
+//   fs.mkdirSync(dir, { recursive: true });
+// }
 fs.writeFileSync(logpath, '');
 const logFile = fs.createWriteStream(logpath, { flags: 'a' });
 const errorFile = fs.createWriteStream(logpath, { flags: 'a' });
@@ -34,14 +50,21 @@ const errorFile = fs.createWriteStream(logpath, { flags: 'a' });
 process.stdout.write = logFile.write.bind(logFile);
 process.stderr.write = errorFile.write.bind(errorFile);
 
-// let filePath = path.join(app.getAppPath(), 'server/myfile.txt');
-// console.log(filePath)
+
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
-// Scheme must be registered before the app is ready
-protocol.registerSchemesAsPrivileged([
-  { scheme: 'app', privileges: { secure: true, standard: true } }
-])
+// Scheme must be registered before the app is ready   配合vue-cli-plugin-electron-builder使用的
+// protocol.registerSchemesAsPrivileged([
+//   { scheme: 'app', privileges: { secure: true, standard: true } }
+// ])
+
+
+try {
+  const axios = require('axios');
+  console.log('axios loaded successfully');
+} catch (error) {
+  console.error('Failed to load axios:', error);
+}
 
 
 async function createWindow() {
@@ -71,6 +94,7 @@ async function createWindow() {
     if (!process.env.IS_TEST)
      win.webContents.openDevTools()
   } else {
+    //配合vue-cli-plugin-electron-builder使用的
     //createProtocol('app')
     // Load the index.html when not in development
     //win.loadURL('app://./index.html')

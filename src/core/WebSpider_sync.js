@@ -1,5 +1,5 @@
 'use strict'
-const { default: axios } = require("axios")
+const axios= require("axios")
 const RequestParser = require("./RequestParser")
 const ResponseParser = require("./ResponseParser")
 

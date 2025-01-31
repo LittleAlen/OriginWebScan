@@ -8,6 +8,13 @@ const readRules =require( "./database")
 const { control_status, store_cookie } =require( './WebSpider')
 const AdmZip =require( 'adm-zip')
 
+function getResourcePath() {
+  if (process.env.NODE_ENV === 'development') {
+    return process.cwd()
+  } else {
+    return process.resourcesPath
+  }
+}
 
 function handleSetTitle (event, title) {
     const webContents = event.sender
@@ -31,7 +38,8 @@ async function handelStart(event,url="",rawRequest="",filePath=""){
       var hostname=new URL(req.url).hostname
       var result= await OriginScan(url,rawRequest,filePath)
     }catch(e){
-      console.log(e)
+      console.error(e)
+      console.error("ERROR: Scan failed")
       return ["Error",[]]
     }
     // console.log(result)
@@ -59,8 +67,8 @@ async function handleGetRules(){
 async function handleStoreRules(event,rules){
     //console.log("Store rule")
     //console.log(rules)
-    fs.writeFile('src/scripts/database.txt', JSON.stringify(rules), (err) => {
-        if (err) {
+    fs.writeFile( path.join(getResourcePath(),'src','scripts','database.txt'), JSON.stringify(rules), (err) => {
+      if (err) {
           console.error('Error appending to file:', err);
           return;
         }
@@ -187,8 +195,7 @@ async function  ScanDirectory(dirpath){
 }
 
 function getDirname(event){
-  
-  return process.cwd()
+   return getResourcePath()
 }
 
 module.exports = {

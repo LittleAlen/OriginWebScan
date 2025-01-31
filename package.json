@@ -12,23 +12,16 @@
     "make": "electron-forge make"
   },
   "dependencies": {
-    
     "adm-zip": "^0.5.16",
-    "axios": "^1.4.0",
+    "axios": "^1.7.9",
     "core-js": "^3.8.3",
+    "dotenv": "^16.4.7",
     "electron-squirrel-startup": "^1.0.1",
     "puppeteer": "^18.1.0"
     
     
   },
   "devDependencies": {
-    "vue": "^3.2.13",
-    "vue-router": "^4.0.3",
-    "vuex": "^4.0.0",
-    "@element-plus/icons-vue": "^2.1.0",
-    "element-plus": "^2.3.8",
-    "register-service-worker": "^1.7.2",
-
     "@electron-forge/cli": "^7.6.1",
     "@electron-forge/maker-deb": "^7.6.1",
     "@electron-forge/maker-rpm": "^7.6.1",
@@ -37,6 +30,7 @@
     "@electron-forge/plugin-auto-unpack-natives": "^7.6.1",
     "@electron-forge/plugin-fuses": "^7.6.1",
     "@electron/fuses": "^1.8.0",
+    "@element-plus/icons-vue": "^2.1.0",
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-pwa": "~5.0.0",
     "@vue/cli-plugin-router": "~5.0.0",
@@ -44,7 +38,13 @@
     "@vue/cli-service": "~5.0.0",
     "electron": "^24.8.1",
     "electron-devtools-installer": "^3.1.0",
+    "element-plus": "^2.3.8",
+    "register-service-worker": "^1.7.2",
     "sass": "^1.32.7",
-    "sass-loader": "^12.0.0"
-  }
+    "sass-loader": "^12.0.0",
+    "vue": "^3.2.13",
+    "vue-router": "^4.0.3",
+    "vuex": "^4.0.0"
+  },
+  "packageManager": "yarn@1.22.19+sha1.4ba7fc5c6e704fce2066ecbfb0b0d8976fe62447"
 }

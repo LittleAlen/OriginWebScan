@@ -2,7 +2,7 @@
 'use strict'
 const RequestParser=require("../core/RequestParser.js")
 const ResponseParser=require("../core/ResponseParser.js")
-const { default: axios } = require("axios")
+const axios  = require("axios")
 const { exec } = require('child_process');
 const util = require('util');
 const {store_cookie,controller} = require("../core/WebSpider.js");

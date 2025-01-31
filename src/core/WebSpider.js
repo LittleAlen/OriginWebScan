@@ -1,7 +1,9 @@
 'use strict'
 
-const puppeteer = require('puppeteer');
-const { default: axios } = require("axios")
+const puppeteer = require('puppeteer-core');
+const axios= require("axios")
+const os = require('os')
+const path = require('path')
 const RequestParser = require("./RequestParser")
 const ResponseParser = require("./ResponseParser")
 const ignore_suffix=[".js",".css",".jpg",".jpeg",".png",".webp"]
@@ -59,6 +61,39 @@ function ComputePath(url){
     }
     return tmp_url.href
 }
+function getBrowserPath() {
+    const platform = os.platform();
+    let browserPath;
+  
+    const paths = {
+      win32: [
+        path.join('C:', 'Program Files', 'Google', 'Chrome', 'Application', 'chrome.exe'),
+        path.join('C:', 'Program Files (x86)', 'Google', 'Chrome', 'Application', 'chrome.exe'),
+        path.join('C:', 'Program Files', 'Chromium', 'Application', 'chrome.exe'),
+      ],
+      darwin: [
+        path.join('/Applications', 'Google Chrome.app', 'Contents', 'MacOS', 'Google Chrome'),
+        path.join('/Applications', 'Chromium.app', 'Contents', 'MacOS', 'Chromium'),
+      ],
+      linux: [
+        '/usr/bin/google-chrome',
+        '/usr/bin/chromium',
+      ],
+    };
+  
+    for (const p of paths[platform]) {
+      if (require('fs').existsSync(p)) {
+        browserPath = p;
+        break;
+      }
+    }
+  
+    if (!browserPath) {
+     console.error('ERROR: Chrome or Chromium not found on this system.');
+    }
+  
+    return browserPath;
+  }
 
 class WebSpider{
     constructor(){}
@@ -71,8 +106,10 @@ class WebSpider{
     }
     async start(){
         var req0=new RequestParser(this.url,this.rawRequest,undefined)
-        const browser = await puppeteer.launch()
-        const context = await browser.createIncognitoBrowserContext();
+        const browser = await puppeteer.launch({
+            executablePath: getBrowserPath(),
+            headless: true, // 设置为 true 以在后台运行
+          });
         
         // 获取 rawRequest中的所有 cookie
         //console.log(req0)
@@ -221,7 +258,7 @@ class WebSpider{
                 }
                 }
             }catch(e){
-               console.log("Error: "+req.url)
+               console.log("ERROR: WebSpider.js url: "+req.url)
                //console.log(e)
             }
         }

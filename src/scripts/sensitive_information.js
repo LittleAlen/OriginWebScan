@@ -1,7 +1,7 @@
 'use strict'
 const RequestParser=require("./../../src/core/RequestParser.js")
 const ResponseParser=require("./../../src/core/ResponseParser.js")
-const { default: axios } = require("axios")
+const axios = require("axios")
 
 const {store_cookie,control_status} = require("./../../src/core/WebSpider.js")
 var dir_check=true

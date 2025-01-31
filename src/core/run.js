@@ -10,6 +10,7 @@ const ResultShow = require("./ResultShow")
 
 async function OriginScan(url="",rawRequest="",filePath=""){
   //todo
+  console.log("INFO: Start Scan")
   spider.set(url,rawRequest)
   await spider.start()
   var requests=spider.result()
@@ -42,10 +43,10 @@ async function OriginScan(url="",rawRequest="",filePath=""){
     }
   }
   await loop()
-   console.log("INFO: Scan Result ",result.length)
+  console.log(`INFO: Scan Results ${result.length}`)
   //  console.log(store_cookie)
 
-   
+  console.log("INFO: Stop Scan")
   return result
 }
 

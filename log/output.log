@@ -1,1 +1,7 @@
+axios loaded successfully
+INFO: Control Status: [Running,DomainScan,StaticRender] =  [false,false,true]
+INFO: Start Scan
+Error: http://www.baidu.com/
+INFO: Scan Results 0
+INFO: Stop Scan
 INFO: Control Status: [Running,DomainScan,StaticRender] =  [false,false,true]

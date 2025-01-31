@@ -1,13 +1,19 @@
 "use strict"
 const fs = require('fs');
 const Rule=require("./Rule");
+const path=require('path')
 // constructor(id=1,name="VulnerabilityName",path="PathToScript",grade=5,method="TriggerWay",suggestion="Suggestion")
-
+function getResourcePath() {
+  if (process.env.NODE_ENV === 'development') {
+    return process.cwd()
+  } else {
+    return process.resourcesPath
+  }
+}
 async function readRules(){
 
   var rules=[]
-  var data=  fs.readFileSync('./src/scripts/database.txt', { encoding: 'utf8' });
-  
+  var data = fs.readFileSync(path.join(getResourcePath(),"src","scripts","database.txt"), { encoding: 'utf8' });
     data=JSON.parse(data)
     // console.log(data)
     for(let i=0;i<data.length;i++){
