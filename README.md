@@ -25,13 +25,27 @@
 
 > 其实还有很多可以优化的点，比如爬虫，采用模拟点击+拦截的方法来获得发送的请求，，，之前在某大厂的安全部门实习做了Web漏洞扫描的优化，发现我自己写的玩具还是有很多可以改进的点的哈哈
 
+### 关键包
+```sh
+npm init
+npm install electron --save-dev
+npm install --save-dev @electron-forge/cli
+```
+
 ### 运行
 
 时间仓促，还没封装成一个软件，用electron+vue写的，需要用的话，得先下载好nodejs和vue-cli，后面有空再研究一下怎么打包成一个软件，，，兄弟们等我
 
 ```sh
 npm install
-npm run electron:serve
+npm run vbuild
+npm run estart
+```
+
+### 打包
+
+```sh
+npx electron-forge import
 ```
 
 

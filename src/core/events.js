@@ -147,8 +147,7 @@ async function handelGetFile(event,filepath){
 async function handleSetControlStatus(event,status){
     for(let i=0;i<control_status.length;i++)
       control_status[i]=status[i]
-    console.log("INFO: Control Status: [Running,DomainScan,StaticRender]")
-    console.log("INFO: ",status)
+    console.log("INFO: Control Status: [Running,DomainScan,StaticRender] = ",JSON.stringify(control_status))
 }
 
 
@@ -188,6 +187,7 @@ async function  ScanDirectory(dirpath){
 }
 
 function getDirname(event){
+  
   return process.cwd()
 }
 

@@ -13,8 +13,8 @@ const path = require('path')
 // import fs from 'fs'
 // import path from 'path'
 
-console.log("INFO:ProcessDirname",process.cwd())
-
+// console.log("INFO:ProcessDirname",process.cwd())
+// console.log(app.getAppPath())
 //重定向日志
 const formatDate = () => {
   const now = new Date();
@@ -44,7 +44,6 @@ protocol.registerSchemesAsPrivileged([
 ])
 
 
-console.log(app.getAppPath())
 async function createWindow() {
   // Create the browser window.
   const win = new BrowserWindow({
