@@ -23,18 +23,17 @@
 
 除了通用漏洞，很多的组件的漏洞也没有收集起来，这个得依赖平时的积累了，没错，安全很吃经验。
 
-> 其实还有很多可以优化的点，比如爬虫，采用模拟点击+拦截的方法来获得发送的请求，，，之前在某大厂的安全部门实习做了Web漏洞扫描的优化，发现我自己写的玩具还是有很多可以改进的点的哈哈
+> 其实还有很多可以优化的点，比如爬虫，采用模拟点击+拦截的方法来获得发送的请求，，，之前在某大厂的安全部门实习做了Web漏洞扫描的优化，发现我自己写的工具还是有很多可以改进的点的哈哈
 
-### 关键包
+
+
+### 本地编译
 ```sh
-npm init
-npm install electron --save-dev
-npm install --save-dev @electron-forge/cli
+Nodejs v22.13.1
+vue3
+Chrome本地浏览器（默认安装路径即可）
 ```
-
-### 运行
-
-时间仓促，还没封装成一个软件，用electron+vue写的，需要用的话，得先下载好nodejs和vue-cli，后面有空再研究一下怎么打包成一个软件，，，兄弟们等我
+用electron+vue写的,直接运行的方式如下
 
 ```sh
 npm install
@@ -42,10 +41,11 @@ npm run vbuild
 npm run estart
 ```
 
-### 打包
+然后通过如下方式生成本地机器环境的安装包，该安装包位于out目录下
 
 ```sh
 npx electron-forge import
+npm run make
 ```
 
 
