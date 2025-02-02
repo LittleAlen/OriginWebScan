@@ -32,10 +32,10 @@ jobs:
       - name: Build and package
         run: npm run make
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # 使用 GitHub Token 进行身份验证
+          GITHUB_TOKEN: ${{ secrets.NEW_TOKEN }}  # 使用 GitHub Token 进行身份验证
 
       # 5. 发布到 GitHub Releases
       - name: Publish to GitHub Releases
         run: npm run publish
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.NEW_TOKEN }}
