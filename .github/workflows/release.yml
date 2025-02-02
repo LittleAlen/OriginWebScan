@@ -1,0 +1,41 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'  # 当推送的标签以 "v" 开头时触发（例如 v1.0.0）
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}  # 在多个操作系统上运行
+
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest, ubuntu-latest]  # 定义操作系统矩阵
+
+    steps:
+      # 1. 检出代码
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # 2. 设置 Node.js 环境
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 22  # 指定 Node.js 版本
+
+      # 3. 安装依赖
+      - name: Install dependencies
+        run: npm install
+
+      # 4. 打包应用程序
+      - name: Build and package
+        run: npm run make
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # 使用 GitHub Token 进行身份验证
+
+      # 5. 发布到 GitHub Releases
+      - name: Publish to GitHub Releases
+        run: npm run publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
