@@ -99,8 +99,8 @@ async function createWindow() {
     // Load the index.html when not in development
     //win.loadURL('app://./index.html')
     //打开控制台
-    if (!process.env.IS_TEST)
-      win.webContents.openDevTools()
+    // if (!process.env.IS_TEST)
+    //   win.webContents.openDevTools()
     win.loadFile(path.join(__dirname,'..','dist_electron' ,'index.html'))
   }
 }

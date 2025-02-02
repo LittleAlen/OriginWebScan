@@ -26,7 +26,7 @@ import {computed, ref} from "vue"
 
 var running=ref(false)
 var ClipboardVisible=ref(false)
-var url=ref("http://127.0.0.1:8080")
+var url=ref("")
 //var url=ref("http://127.0.0.1:8080/vul/sqli/sqli_search.php?name=ede&submit=%E6%90%9C%E7%B4%A2")
 var tableData=ref([])
 var rawRequest=ref("")
