@@ -9,7 +9,8 @@
     "vserve": "vue-cli-service serve",
     "start": "electron-forge start",
     "package": "electron-forge package",
-    "make": "electron-forge make"
+    "make": "electron-forge make",
+    "publish": "electron-forge publish" // 发布到 GitHub Releases
   },
   "dependencies": {
     "adm-zip": "^0.5.16",

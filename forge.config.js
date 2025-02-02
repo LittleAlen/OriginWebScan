@@ -10,7 +10,9 @@ module.exports = {
   makers: [
     {
       name: '@electron-forge/maker-squirrel',
-      config: {},
+      config: {
+        name: 'origin'
+      },
     },
     {
       name: '@electron-forge/maker-zip',
@@ -23,6 +25,19 @@ module.exports = {
     {
       name: '@electron-forge/maker-rpm',
       config: {},
+    },
+  ],
+  publishers: [
+    {
+      name: '@electron-forge/publisher-github', // 发布到 GitHub Releases
+      config: {
+        repository: {
+          owner: 'LittleAlen', // 替换为你的 GitHub 用户名
+          name: 'OriginWebScan', // 替换为你的仓库名
+        },
+        draft: false, // 发布为草稿
+        prerelease: false, // 是否作为预发布版本
+      },
     },
   ],
   plugins: [
@@ -42,4 +57,21 @@ module.exports = {
       [FuseV1Options.OnlyLoadAppFromAsar]: true,
     }),
   ],
+  //MAC 签名
+  // osxSign: {
+  //   identity: 'Developer ID Application: Your Name (TEAMID)', // 开发者证书
+  //   'hardened-runtime': true,
+  //   entitlements: 'entitlements.plist', // 权限配置文件
+  //   'entitlements-inherit': 'entitlements.plist',
+  // },
+  // osxNotarize: {
+  //   appleId: process.env.APPLE_ID, // Apple ID
+  //   appleIdPassword: process.env.APPLE_ID_PASSWORD, // App 专用密码
+  // },
+  //windows 签名
+  // packagerConfig: {
+  //   win32metadata: {
+  //     'requested-execution-level': 'requireAdministrator', // 请求管理员权限
+  //   },
+  // },
 };
