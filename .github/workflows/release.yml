@@ -30,13 +30,19 @@ jobs:
       - name: Install dependencies
         run: npm install --force
 
-      # 4. 打包应用程序
+      # 4. 构建前端应用
+      - name: Build and package
+        run: npm run vbuild
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # 使用 GitHub Token 进行身份验证
+
+      # 5. 打包应用程序
       - name: Build and package
         run: npm run make
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # 使用 GitHub Token 进行身份验证
 
-      # 5. 发布到 GitHub Releases
+      # 6. 发布到 GitHub Releases
       - name: Publish to GitHub Releases
         run: npm run publish
         env:
