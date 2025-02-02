@@ -5,6 +5,8 @@ on:
     tags:
       - 'v*'  # 当推送的标签以 "v" 开头时触发（例如 v1.0.0）
 
+permissions: write-all
+
 jobs:
   build:
     runs-on: ${{ matrix.os }}  # 在多个操作系统上运行
@@ -32,10 +34,10 @@ jobs:
       - name: Build and package
         run: npm run make
         env:
-          GITHUB_TOKEN: ${{ secrets.NEW_TOKEN }}  # 使用 GitHub Token 进行身份验证
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # 使用 GitHub Token 进行身份验证
 
       # 5. 发布到 GitHub Releases
       - name: Publish to GitHub Releases
         run: npm run publish
         env:
-          GITHUB_TOKEN: ${{ secrets.NEW_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
