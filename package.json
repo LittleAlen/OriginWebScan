@@ -1,6 +1,7 @@
 {
   "name": "origin",
   "version": "1.0.0",
+  "license": "MIT",
   "main": "src/background.js",
   "description": "Web Vulnerability Scan Tool!",
   "scripts": {

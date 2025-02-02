@@ -22,7 +22,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 22  # 指定 Node.js 版本
+          node-version: 16  # 指定 Node.js 版本
 
       # 3. 安装依赖
       - name: Install dependencies
