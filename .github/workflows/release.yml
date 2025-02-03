@@ -37,6 +37,8 @@ jobs:
           security import certificate.p12 -k build.keychain -P ${{ secrets.APPLE_CERT_PASSWORD }} -T /usr/bin/codesign
           security default-keychain -s build.keychain
           security unlock-keychain -p mypassword build.keychain
+          security find-identity -v -p codesigning
+          echo "✅ macOS 证书配置完成"
 
       # # Windows 证书配置
       # - name: Setup Windows Certificate
@@ -67,7 +69,17 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # 使用 GitHub Token 进行身份验证
         run: npm run make
        
-          
+      - name: Sign macOS App
+        if: matrix.os == 'macos-latest'
+        run: |
+          codesign --deep --force --verbose --sign "MySelfSignedCert" ./out/origin-darwin-arm64
+          echo "✅ macOS 代码签名完成"
+
+      # - name: Sign Windows App
+      #   if: matrix.os == 'windows-latest'
+      #   run: |
+      #     osslsigncode sign -pkcs12 certificate.pfx -pass ${{ secrets.WINDOWS_PFX_PASSWORD }} -n "My App" -i "https://myapp.com" -in ./dist/win/*.exe -out ./dist/win/signed.exe
+      #     echo "✅ Windows 代码签名完成"
 
       # 6. 发布到 GitHub Releases
       - name: Publish to GitHub Releases
