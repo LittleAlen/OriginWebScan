@@ -58,12 +58,13 @@ module.exports = {
     }),
   ],
   //MAC 签名
-  // osxSign: {
-  //   identity: 'Developer ID Application: Your Name (TEAMID)', // 开发者证书
-  //   'hardened-runtime': true,
-  //   entitlements: 'entitlements.plist', // 权限配置文件
-  //   'entitlements-inherit': 'entitlements.plist',
-  // },
+ 
+  osxSign: {
+    identity: process.env.APPLE_IDENTITY || "MySelfSignedCert", // 证书名称
+    "hardened-runtime": false, // 自签名证书不支持强化运行时
+    entitlements: "entitlements.plist",
+    "entitlements-inherit": "entitlements.plist",
+  },
   // osxNotarize: {
   //   appleId: process.env.APPLE_ID, // Apple ID
   //   appleIdPassword: process.env.APPLE_ID_PASSWORD, // App 专用密码

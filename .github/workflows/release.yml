@@ -24,7 +24,28 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 16  # 指定 Node.js 版本
+          node-version: 22  # 指定 Node.js 版本
+
+      # macOS 证书配置
+      - name: Setup macOS Certificates
+        if: matrix.os == 'macos-latest'
+        env:
+          APPLE_CERT: ${{ secrets.APPLE_CERT_BASE64 }}
+        run: |
+          echo $APPLE_CERT | base64 --decode > certificate.p12
+          security create-keychain -p mypassword build.keychain
+          security import certificate.p12 -k build.keychain -P ${{ secrets.APPLE_CERT_PASSWORD }} -T /usr/bin/codesign
+          security default-keychain -s build.keychain
+          security unlock-keychain -p mypassword build.keychain
+
+      # # Windows 证书配置
+      # - name: Setup Windows Certificate
+      #   if: matrix.os == 'windows-latest'
+      #   env:
+      #     WINDOWS_PFX: ${{ secrets.WINDOWS_PFX_BASE64 }}
+      #   run: |
+      #     echo $WINDOWS_PFX | base64 --decode > certificate.pfx
+      #     echo "certificate.pfx 路径: ${{ github.workspace }}\certificate.pfx"
 
       # 3. 安装依赖
       - name: Install dependencies
@@ -38,9 +59,15 @@ jobs:
 
       # 5. 打包应用程序
       - name: Build and package
-        run: npm run make
         env:
+          # APPLE_ID: ${{ secrets.APPLE_ID }}
+          # APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
+          # WINDOWS_PFX_PATH: ./certificate.pfx
+          # WINDOWS_PFX_PASSWORD: ${{ secrets.WINDOWS_PFX_PASSWORD }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # 使用 GitHub Token 进行身份验证
+        run: npm run make
+       
+          
 
       # 6. 发布到 GitHub Releases
       - name: Publish to GitHub Releases
