@@ -72,7 +72,7 @@ jobs:
       - name: Sign macOS App
         if: matrix.os == 'macos-latest'
         run: |
-          codesign --deep --force --verbose --sign "MySelfSignedCert" ./out/origin-darwin-arm64/*.app
+          sh ./scripts/sign-macos.sh
           echo "✅ macOS 代码签名完成"
 
       # - name: Sign Windows App
