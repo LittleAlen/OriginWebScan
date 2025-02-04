@@ -36,7 +36,7 @@ Chrome本地浏览器（默认安装路径即可）
 用electron+vue写的,直接运行的方式如下
 
 ```sh
-npm install
+npm install --force
 npm run vbuild
 npm run estart
 ```
@@ -48,7 +48,13 @@ npx electron-forge import
 npm run make
 ```
 
+### 安装包
 
+在[release](https://github.com/LittleAlen/OriginWebScan/releases)页面，由于没有签名，对于Windows应用直接点击允许就好，对于MaC应用，需要移除对app的签名检查，否则会提示文件损坏。先进入到origin.app所在目录，然后执行以下命令即可
+```sh
+# 终端中运行（需管理员权限）
+sudo xattr -rd com.apple.quarantine origin.app
+```
 
 ### 界面展示
 

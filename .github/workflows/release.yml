@@ -27,18 +27,18 @@ jobs:
           node-version: 22  # 指定 Node.js 版本
 
       # macOS 证书配置
-      - name: Setup macOS Certificates
-        if: matrix.os == 'macos-latest'
-        env:
-          APPLE_CERT: ${{ secrets.APPLE_CERT_BASE64 }}
-        run: |
-          echo $APPLE_CERT | base64 --decode > certificate.p12
-          security create-keychain -p mypassword build.keychain 
-          security import certificate.p12 -k build.keychain -P ${{ secrets.APPLE_CERT_PASSWORD }} -T /usr/bin/codesign
-          security default-keychain -s build.keychain
-          security unlock-keychain -p mypassword build.keychain
-          echo $(security find-identity -v -p codesigning)
-          echo "✅ macOS 证书配置完成"
+      # - name: Setup macOS Certificates
+      #   if: matrix.os == 'macos-latest'
+      #   env:
+      #     APPLE_CERT: ${{ secrets.APPLE_CERT_BASE64 }}
+      #   run: |
+      #     echo $APPLE_CERT | base64 --decode > certificate.p12
+      #     security create-keychain -p mypassword build.keychain 
+      #     security import certificate.p12 -k build.keychain -P ${{ secrets.APPLE_CERT_PASSWORD }} -T /usr/bin/codesign
+      #     security default-keychain -s build.keychain
+      #     security unlock-keychain -p mypassword build.keychain
+      #     echo $(security find-identity -v -p codesigning)
+      #     echo "✅ macOS 证书配置完成"
 
       # # Windows 证书配置
       # - name: Setup Windows Certificate
@@ -69,11 +69,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # 使用 GitHub Token 进行身份验证
         run: npm run make
        
-      - name: Sign macOS App
-        if: matrix.os == 'macos-latest'
-        run: |
-          sh sign.sh
-          echo "✅ macOS 代码签名完成"
+      # - name: Sign macOS App
+      #   if: matrix.os == 'macos-latest'
+      #   run: |
+      #     sh sign.sh
+      #     echo "✅ macOS 代码签名完成"
 
       # - name: Sign Windows App
       #   if: matrix.os == 'windows-latest'
