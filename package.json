@@ -1,6 +1,6 @@
 {
   "name": "origin",
-  "version": "1.1.6",
+  "version": "1.1.7",
   "license": "MIT",
   "author": "Alenkz12 <qfy1390974313@gmail.com>", 
   "main": "src/background.js",
