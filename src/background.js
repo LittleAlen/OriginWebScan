@@ -59,12 +59,12 @@ const isDevelopment = process.env.NODE_ENV !== 'production'
 // ])
 
 
-try {
-  const axios = require('axios');
-  console.log('axios loaded successfully');
-} catch (error) {
-  console.error('Failed to load axios:', error);
-}
+// try {
+//   const axios = require('axios');
+//   console.log('axios loaded successfully');
+// } catch (error) {
+//   console.error('Failed to load axios:', error);
+// }
 
 
 async function createWindow() {

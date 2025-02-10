@@ -11,8 +11,9 @@ module.exports = {
     {
       name: '@electron-forge/maker-squirrel',
       config: {
-        name: 'origin'
-      },
+        portable: true, 
+        artifactName: 'Origin/Origin.exe'
+      }
     },
     {
       name: '@electron-forge/maker-zip',

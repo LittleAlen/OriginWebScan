@@ -62,7 +62,7 @@ npm run estart
 然后通过如下方式生成本地机器环境的安装包，该安装包位于out目录下
 
 ```sh
-npx electron-forge import
+#npx electron-forge import
 npm run make
 ```
 

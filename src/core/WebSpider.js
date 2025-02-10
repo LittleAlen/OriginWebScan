@@ -258,7 +258,7 @@ class WebSpider{
                 }
                 }
             }catch(e){
-               console.log("ERROR: WebSpider.js url: "+req.url)
+               console.log("WARN: WebSpider.js url: "+req.url)
                //console.log(e)
             }
         }
